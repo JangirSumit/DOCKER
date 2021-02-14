@@ -1,0 +1,123 @@
+1. Cannot connect to the Docker daemon at unix:/var/run/docker.sock. Is the docker daemon running?
+Start Docker Service
+Ans: sudo service docker start
+
+2. Docker Check Images
+Ans: sudo docker Images
+
+3. Docker find process (Only running process/container)
+Ans: sudo docker ps 
+
+4. Docker find process (All running process/container+idol)
+Ans: sudo docker ps -a
+
+5. Find and install Images
+Ans: sudo docker run <image_name>
+
+6. Get image
+Ans: sudo docker pull <image_name>
+
+7. History of an image
+Ans: sudo docker history <image_name>
+
+8. Get detailed information of an image
+Ans: sudo docker inspect <image_name>
+
+9. Remove Image from local
+Ans: sudo docker rmi <image_name>
+
+10. Remove unused Images
+Ans: sudo docker image prune
+
+11. Remove unused(stopped/exited) Containers
+Ans: sudo docker container prune
+
+12. Stop/Start/Restart/Inspect Containers
+Ans: sudo docker [stop/start/restart/inspnect] <container_id>
+
+13. Remove Containers (-f: forcefully  though it is inrunning state)
+Ans: sudo docker rm [-f] <container_id>
+
+14. Creates new container & gets inside the container (in interactive mode)
+Ans: sudo docker run -it node
+
+15. Creates a new container in detached mode
+Ans: sudo docker run -d node
+
+16. Get Inside of a container
+Ans: sudo docker exec -it <container id> bash 
+
+17. Running a container in the foreground mode attaches the terminal to the container’s
+STDIN/STDOUT/STDERR
+The -a flag can be passed to specify the stream (by default without any flags containers always
+start in attached mode)
+Ans: docker run -a <stream> <imageName>
+
+18. Public ip address
+Ans: curl ifconfig.co
+
+19. Default directory path for docker
+Ans: sudo cd /var/li/docker
+
+20. Where Docker images gets stored
+Ans: overlay2 folder
+
+21. Check All layers?
+Ans: move to overlay2 folder and do sudo ls -lart
+
+22. Check Images and Layers?
+Ans: in imagesdb and layersdb
+
+23. Thin Writable Layer?
+Ans: Because of this layer we can edit something inside a running container. Same is not available in Image.
+
+24. Create Image?
+Ans: 1. Manual or commit / import-export
+2. Automatic or dockerfile
+
+25. Convert a running contianer into an image
+Ans: sudo docker commit -m "nginx inside ubuntu" -c "CMD /usr/bin/nginx' =f 'daemon off;'" -c 'EXPOSE 80' <container_id> ubuntu-nginx
+
+26. login into docker hub
+Ans: sudo docker login
+
+27. Dcoker file?
+Ans. without any extension. eg: dockerfile
+We can create it with command :- vi dockerfile
+
+28. create Docker file
+Ans:
+vi dockerfile (will move into vi editor)
+[PRESS i to get into editor for insert]
+
+Add below directives
+---------------------
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y vim
+RUN apt-get install -y nginx
+RUN rm /var/www/html/*
+WORKDIR /var/www/html/
+RUN echo "<h1>Hello from Sumit</h1>"
+EXPOSE 80
+CMD /usr/sbin/nginx -g "daemon off;"
+-------------------------
+[PRESS Esc and :wq then Enter to save and exit from vi editor]
+
+29. create image from docker file
+Ans: sudo docker build -t Sumit .
+
+30. Port forwarding?
+Ans: sudo docker run -itd -p 80:80 sumit:latest
+
+Default port: sudo docker run -itd -P sumit:latest
+
+31.Change Tag name of local image?
+Ans: sudo docker tag micro-frontend:latest jangirsumit/first-image:micro-frontend
+
+32. Push changes to docker hub
+Ans: sudo dokcer push jangirsumit/first-image:micro-frontend
+
+33. Move folder files to other folder
+Ans: mv /path/sourcefolder/* /path/destinationfolder/
+
