@@ -1,0 +1,27 @@
+//Pull or install ubuntu container, move into ubuntu bash with "-it"
+docker run -it ubuntu
+
+//into the ubuntu bash run following commands
+apt-get update
+apt-get install -y nginx
+apt-get install -y git
+rm /var/www/html/*
+cd /var/www/html/
+git clone https://github.com/edurekacontent/dockerContent.git
+mv /var/www/html/dockerContent/'Case-study app'/* /var/www/html/
+rm -r dockerContent
+
+-- Move out of ubuntu bash
+
+//Check container id
+docker ps -a
+
+//Create image of running container
+docker commit -m "nginx in ubuntu" -c 'CMD /usr/sbin/nginx -g "daemon off;"' -c 'EXPOSE 80' <contid> nginx-in-ubuntu
+
+//Run newly created image
+docker run -d -p 85:80 nginx-in-ubuntu
+
+//Check public ip and check it in browser with port number 85
+
+
