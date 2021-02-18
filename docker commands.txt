@@ -151,6 +151,98 @@ Ans: It allows us to create a final image using lesser number of layers which in
 Ans: Docker image is a file, consisting of multiple layers, that is executed to create a container.
 Container use images to construct a run-time environment.
 
-38. 
+38. DockerFile Directives?
+Ans: 
+FROM - 
+RUN - used to run commands like rm, mv
+EXPOSE - expose ports to external world
+CMD - used to execute commands, can be overridden, can have multiple but only one will execute that will be last one only
+WORKDIR - set current working directory
+COPY
+ADD 
+STOPSIGNAL - default SIGTERM
+HEALTHCHECK OK - Easiest way to check health of a contianer
+
+39. Example with HEALTHCHECK?
+Ans:
+create docker file-
+vi dockerfile
+
+in docker file-
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y nginx
+RUN apt-get install -y curl
+WORKDIR /var/www/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+STOPSIGNAL SIGTERM
+HEALTHCHECK CMD curl localhost:80
+
+then create image of it-
+sudo docker build -t healthcheck-demo 
+
+create container of that image-
+docker run -id -p 86:80 healthcheck-demo
+
+40. How to see health status?
+Ans: docker ps
+You will see status option from result set
+
+41. Example of multi stage builds and normal builds?
+Ans:
+
+cd ~/
+mkdir efficient
+mkdir inefficient
+cd inefficient
+Create the source code file:
+
+vi helloworld.go
+package main
+import "fmt"
+func main() {
+    fmt.Println("hello world")
+}
+Create the Dockerfile:
+
+vi Dockerfile
+FROM golang:1.12.4
+WORKDIR /helloworld
+COPY helloworld.go .
+RUN GOOS=linux go build -a -installsuffix cgo -o helloworld .
+CMD ["./helloworld"]
 
 
+Build and test the inefficient image:
+
+docker build -t inefficient .
+docker run inefficient
+docker image ls
+Switch to the efficient project directory and copy the files from the inefficient project:
+
+cd ~/efficient
+cp ../inefficient/helloworld.go ./
+cp ../inefficient/Dockerfile ./
+Change the Dockerfile to use a multi-stage build:
+
+vi Dockerfile
+FROM golang:1.12.4 AS compiler
+WORKDIR /helloworld
+COPY helloworld.go .
+RUN GOOS=linux go build -a -installsuffix cgo -o helloworld .
+
+FROM alpine:3.9.3
+WORKDIR /root
+COPY --from=compiler /helloworld/helloworld .
+CMD ["./helloworld"]
+Build and test the efficient image:
+
+docker build -t efficient .
+docker run efficient
+docker image ls
+
+42. Remove unnecessary sapce (contianer + image)
+Ans: docker system prune
+
+43. 
