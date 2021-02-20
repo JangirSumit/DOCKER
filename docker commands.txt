@@ -244,5 +244,60 @@ docker image ls
 
 42. Remove unnecessary sapce (contianer + image)
 Ans: docker system prune
+Note: it will remove all stopped containers, dangling images, volumes not used by any container, networks not used by any container
 
-43. 
+43. Check volumes created
+Ans: docker volume ls
+
+Note: It will only tells the volumes created at the default location. 
+"Mountpoint": "/var/lib/docker/volumes/vol1/_data"
+
+44. create volume
+Ans: docker volume create vol1
+
+45. Know about volume?
+Ans: docker inspect vol1
+
+46. Assign volume to a container
+Ans: use -v option
+
+docker run -d -p 89:80 -v vol1:/app tomcat
+here, data of /app folder will be map to volume vol1 of container tomcat
+
+47. Create volumes in second way-
+Ans: docker run -d -P -v vol2:/usr/local/tomcat/logs tomcat
+
+Here, vol2 will be created and mapped to /usr/local/tomcat/logs of container tomcat
+
+48. What is Bind Mounts?
+Ans: Create your own directory structures for using volumes is known as Bind Mounts.
+
+Eg:- docker run -d -P -v /tmp/prod:/usr/share/nginx/html nginx
+
+49. Find volumes mounted to container?
+Ans:
+docker inspect container_id
+
+ "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/docs",
+                "Destination": "/usr/share/nginx/html",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+
+50. Volume mapping vs Bind Mounts?
+Ans: Volume mapping : managed by docker and recommended.
+
+51. Remove volume
+Ans: docker volume rm <volume_name>
+
+52. Flags used for volume mounting?
+Ans: -v and --mount
+
+53.
+
+
