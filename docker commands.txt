@@ -298,6 +298,115 @@ Ans: docker volume rm <volume_name>
 52. Flags used for volume mounting?
 Ans: -v and --mount
 
-53.
+- If File/directory does not exists -v flag will create it.
+- If File/directory does not exisits --mount will throw error.
+
+--mount: docker run -d -P --mount type=bind, source=<source_path>, dst=<dst_path> <image_name>
+-v: docker run -d -P -v source_path:dst_path <image_name>
+
+53. tmpfs Mount?
+Ans: Using containers on a Linux systems enable users to use tmpfs mount.
+it enables container to write outside the container's writable layer.
+These are temporary mounts and only persist inside host machines system memonry.
+
+These are non sharable between containers
+These mounts are not suitable to store permanent data.
+
+54. tmfs flag examples?
+Ans: 
+-docker run -d --mount type=tmpfs, dst=<cont_path> <img_name>
+-docker run -d --tmpfs <cont_name> <img_name>
+
+55. Use of Bind Mounts?
+Ans:
+- When files from the host machines are needed inside the container. Example - config files
+- Shared use of source code
+- Useful if the host system has a consistent directory structure.
+
+56. Use of tbpfs Mounts?
+Ans: 
+- Useful to store temporary security configuration files
+- To store data which needs not to persist on either the host system or the container
+
+57. Docker Compose?
+Ans:
+- Docker compose is a Docker tool for running multi-container applications
+- It uses a yaml format compose file to configure the applications services.
+
+- installation
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.28.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+58. docker-compose.yml example -
+
+version: "3"
+services:
+  webserver:
+    image: nginx
+    ports:
+      - "80"
+    restart: always
+    network_mode: bridge
+    volumes:
+      - /home/docker/:/usr/share/nginx/html
+  appserver:
+    image: tomcat
+    ports:
+      - "8080"
+    network_mode: bridge
+    restart: always
+
+
+-----------
+
+First 2 lines are headers
+
+59. create containers from docker-compose?
+Ans:
+docker-compose -f docker-compose.yml up -d 
+
+60. Stop containers created by docker compose?
+Ans:
+docker-compose -f docker-compose.yml down
+
+61. Scale up/down containers with docker-compose
+Ans:
+docker-compose -f docker-compose.yml up --scale webserver=2 --scale appserver=3
+
+62. Which flag is used to wait untill first image is loaded?
+Ans: depends_on
+
+63. Biggest drwaback of docker-compose?
+Ans: Everything is on same machine. It might go down.
+
+64. Container Orchestration?
+Ans: Deploy containers as a clusters
+cluster - grouping of servers
+
+High availablity
+Load Balancing
+Auto Scaling
+
+100% availablity
+
+
+65. Minimum machines required to have clusters?
+[n+1/2] == 3
+
+66. Different types of containerizations?
+Ans:
+- docker run - 1 container 1 machine
+- docker-compose - n containers 1 machine
+- docker swarm - 1 cotainer n machines
+
+67. How to create cluster?
+Ans:
+docker swarm init 
+
+Then, copy given token commands in rest of all systems to join as sawrm worker.
+
+68. 
 
 
