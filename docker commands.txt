@@ -102,7 +102,7 @@ RUN echo "<h1>Hello from Sumit</h1>"
 EXPOSE 80
 CMD /usr/sbin/nginx -g "daemon off;"
 -------------------------
-[PRESS Esc and :wq then Enter to save and exit from vi editor]
+[PRESS Esc and :wq! then Enter to save and exit from vi editor]
 
 29. create image from docker file
 Ans: sudo docker build -t Sumit .
@@ -407,6 +407,184 @@ docker swarm init
 
 Then, copy given token commands in rest of all systems to join as sawrm worker.
 
-68. 
+68. From where to control the cluster nodes?
+Ans: Manager/Leader system.
+
+69. Create cluster of containers?
+Ans:
+docker service create --name sv1 --replicas 8 -p 4321:80 nginx
+
+70. Check Docker replicas?
+Ans:
+on master: docker service ls
+Get list of nodes/replicas: docker service ps svc1
+
+71. Scale up/down containers on clusters?
+Ans:
+docker service scale svc1=10
+
+72. What is Service level port?
+Ans: Docker swarm create clusters of containers which are on same port.
+It happens becuase of service. Service is responsible for handling requesting and redircting the request to exact container.
+
+73. If we stop or remove any of the container of a cluster, What will happen?
+Ans: Service will create another system.
+
+74. If We stop any of the system?
+Ans: Docker service will create replicas on available machines to match the replica numbers?
+
+75. Command used to create only 1 container on all systems?
+Ans:
+docker service create --name lb --mode global tomcat
 
 
+76. Remove any service?
+Ans:
+docker service rm <service_name>
+
+77. Leave a cluster?
+Ans:
+docker swarm Leave
+
+78. Generate swarm token again to create new worker?
+Ans: 
+docker swarm join-token worker
+
+79. Get node details?
+AnsL
+docker node ls
+
+80. Command to create replicas of cluster but no node should work in my leader/master?
+Ans: 
+docker service create --name sumit --replicas 4 --constraints node.role==worker nginx
+
+81. Scaling a service?
+Ans:
+-docker service update --replicas 4 <serviceName>
+or
+docker service scale <serviceName>=5
+
+82. Labelling a node?
+Ans:
+docker node update --label-add app=abc <node_id>
+
+Note: you can add multiple labels
+
+83. Add a constraint (define condition like add replicas should be on perticular machine/node)?
+Ans:
+docker service create --name syed --replicas 3 --constraint node.labels.app==abc tomcat
+
+84. Rollup/Rollback?
+Ans: Example, Updating versions of an application without impacting exisint service.
+
+- docker service update --image <image_name> <service_name>
+- docker service update --image <image_name> <service_name>
+
+85. Till how many level we can rollback?
+Ans: 18 rollbacks
+
+86. Availablity drain??
+Ans: Can use this command for maintenance state. 
+After drain all resources will be moved to other nodes.
+
+Eg:
+
+docker node update --availablity drain <node_id>
+
+87. Make active node again??
+Ans: 
+docker node update --availablity active <node_id>
+
+88. Generate token for Manager??
+Ans: It will help us to make back up managers
+docker swarm join-token Manager
+
+89. How to make a node as a manager?
+Ans:
+First leave as a worker if available -
+
+docker warm leave
+
+Join as a manager-
+docker swam join........ <full command returned after generating command for manager>
+
+90. docker Stack?
+Ans: Multi container - multiple replica
+
+91. Deploy multi container app
+Ans:
+- docker stack deploy -c app.yml <name_of_stack>
+
+92. Check list of stacks?
+Ans:
+- docker stack ls
+
+93. Check applicaion created into stack?
+Ans:
+- docker stack services <name_of_stack>
+
+94. How many containers can be created from subnet range 172.17.0.1/16?
+Ans: 2^32-16 - 2
+
+95. How to install something into a running container without going inside?
+Ans:
+- docker exec <container_id> apt-get update && apt-get install -y ping
+
+96. Get Ip address of a container?
+Ans:
+- docker inspect <container_id>
+
+97. Talk to other container from another?
+Ans: 
+- docker exec <container_id> ping <ip_of_container_1>
+
+98. Default networking of docker?
+Ans: docker0
+- ip a
+
+99. Create our own networking?
+Ans:
+- docker network create sumitnet
+
+100. Check network list?
+Ans:
+- docker network ls
+
+101. Create container with own network?
+Ans:
+- docker run -d -P --net sumitnet tomcat
+
+102. Change n/w of existing/running container?
+Ans:
+- docker network connect <new_network_name:sumitnet>
+
+103. Drivers of network?
+Ans:
+- bridge - containers created using this will not share ip address from host system.
+- host - containers will use host machines ip and networking i.e. can create only 1 container only
+- null
+- overlay - used for swarm
+
+104. Create container with host driver?
+Ans:
+- docker run -d -P --net host nginx
+
+Note: no ip address, mac address, port numbers
+Whenever you create new container with host driver new container will stop immidiately after creation.
+
+105. How swarm nodes talk to each other?
+Ans: with the help of ingress network and docker gateway bridge
+
+106. Create our own network for swarm?
+Ans:
+- docker nework create --driver overlay <name>
+
+107. Remove network?
+Ans:
+- docker network rm <network_id>
+
+108. Create service with new network?
+Ans:
+- docker service create --name <service_name> --network <networ_name> --replicas 3 nginx
+
+109. 

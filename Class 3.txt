@@ -1,0 +1,18 @@
+what are Docker Images: =======================An image is a package that consists of an application and all of its dependencies to run the application in a container. containers and images use a layered file system. Each layer consists only the differences from the previous layer.the image consists of one or more read only layers, while container adds on one writable layer on top of image layers. 
+The layered file system allows multiple images and containers to share the same layers. this would result in: 	smaller overall storage footprint	faster image transfer	faster image build	
+how to build docker image=========================two ways     
+ 1) MANAUL     
+ 2) AUTOMATED
+Manual Process   ==============     choose a base image     run it as cotnainer in interactive mode     make neccessary changes inside the container     come out of container safely ( ctrl pq )     freeze the changes made inside container to covert it as image ( use docker commit command )     ex:        docker pull ubuntu       
+docker run -it ubuntu bash        
+< inside contianer changes >             
+apt-get update            
+apt-get install -y nginx             
+apt-get install -y vim             
+mkdir /home/configuration             
+touch /home/configuration/db.props            
+ vi /var/www/html/index.html ( edit & save file )            
+ ctrl pq ( to comeout of contianer safely )
+ docker commit -m "install nginx" -c 'CMD /usr/sbin/nginx -g "daemon off;"' -c 'EXPOSE 80' <contid> <new image name>
+      while commiting the changes made to a container below are mandatory          -m -- a message what changes are made          CMD -- a command that would start a process inside the container          EXPOSE -- port number on which process inside container runs always          cont id -- in which the changes are made will have to be freezed / saved          new image name -- anyname for your new image ( ex: mynginx )
+ Automated process ( real time practice )   =========================================      create a simple text file & write the all the instructions build an image
