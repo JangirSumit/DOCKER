@@ -552,7 +552,7 @@ Ans:
 
 101. Create container with own network?
 Ans:
-- docker run -d -P --net sumitnet tomcat
+- docker run -d -P --network sumitnet tomcat
 
 102. Change n/w of existing/running container?
 Ans:
@@ -585,6 +585,68 @@ Ans:
 
 108. Create service with new network?
 Ans:
-- docker service create --name <service_name> --network <networ_name> --replicas 3 nginx
+- docker service create --name <service_name> --network <network_name> --replicas 3 nginx
 
-109. 
+109. Docker security?
+Ans: Docker, in itself, is quite secure because of its architecture and build. It also provies otjer options to make the system more robust. Following systems make the docker secure - 
+
+- Namespaces and cgroups : first level of security provided by host kernel
+- Linux kernel capabilties : From container one can not access host machine
+- docker content trust - Enterprise edition feaures like image scanning
+- docker daemon security - some certificates are used to make it secure
+
+110. Logging?
+Ans:
+- local
+- json-file (default)
+- syslog
+- splunk
+- awslogs
+- gcplogs
+- jounald
+
+111. How to define logging driver?
+Ans: go to daemon.json and add
+
+- vi daemon.json
+ - i
+
+{
+  'log-driver': 'local',
+  'log-opts': {
+    'max-size': '5m'
+  }
+}
+
+- esc and wq!
+
+restart the service
+
+- service docker restart
+
+112. Backup of a manager?
+Ans: 
+Note: - Don't take a backup of a running container
+      - Save it to separate container/vm
+      - Run scripts on manager/leader only.
+
+Take backup of /var/lib/docker
+
+- stop docker service
+- cd /var/lib/docker
+
+- tar cvzf /tmp/swarm.tgz /var/lib/docker/swarm
+
+113. Restore a backup
+Ans:
+
+stop the server first
+- service docker stop
+
+remove existing swarm folder
+- rm -rf swarm
+
+untar the backup file
+got to folder where back up was taken
+
+- tar -xvf swarm.tgz -C /var/lib/docker/swarm/

@@ -1,0 +1,16 @@
+1. Create 3 virtual machines.
+
+2. Initialize swarm
+- docker swarm init
+
+3. Generate token for worker
+- docker swarm join-token worker
+
+4. Confirm the nodes
+- docker node ls
+
+5. Create overlay network
+- docker nework create --driver overlay network1
+
+6. Create Service with 3 replicas
+docker service create --name <service_name> --network <networ_name> --replicas 3 nginx
