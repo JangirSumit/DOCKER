@@ -1,0 +1,62 @@
+A. Build a Docker image from that application
+---------------------------------------------
+
+1. Clone repo to local
+
+- git clone https://github.com/edurekacontent/dockerProjApp.git
+
+2. tar the folder files otherwise it will be hard to copy all the files/folder 
+
+- go to folder cd dockerProjApp/forethought-app
+
+tar cvzf forethought-app.tar /*
+
+2. create dockerfile named as final_project_dockerfile and edit
+- vi final_project_dockerfile and press i, to start writing into file
+
+FROM node:14
+WORKDIR /usr/src/app
+COPY ./dockerProjApp/forwthought-app.tar ./
+RUN tar xvf forwthought-app.tar ./
+RUN mv ./forethought-app/* .
+RUN npm install
+EXPOSE 8080
+CMD ["node","index.js"]
+
+- esc and wq!
+
+3. build image
+- docker build -t final_project -f final_project_dockerfile .
+
+4. Run container
+- docker run -d -P final_project
+
+
+## demo link - http://34.72.101.175:49175/
+
+**********************************************
+
+B. Deploy it on a cluster of Docker swarm with the replica set
+
+1. Create 3 or more vm and install docker
+
+2. Initialize swam
+- docker swarm init
+
+3. Generate token for workers
+- docker swarm join-token worker
+
+4. Copy and Paste the generated token from step 3 into remaining 2 VM
+
+5. Check nodes
+- docker node ls
+
+6. Create your own overlay network
+- docker nework create --driver overlay final_project_network
+
+7. Create service with 5 replicas
+- docker service create --name final_project_service --network final_project_network --replicas 5 -p 8888:8080 final_project
+
+## demo link - http://34.72.101.175:8888/
+
+

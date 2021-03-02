@@ -650,3 +650,19 @@ untar the backup file
 got to folder where back up was taken
 
 - tar -xvf swarm.tgz -C /var/lib/docker/swarm/
+
+114. Configure External DNS 
+Ans:
+- docker run --dns <server_address> <image_name> nslookup google.com
+
+To configure the dns server for the entire system edit the daemon.json file and add the following:
+{
+  'dns':['<server_address>:8.8.8.8']
+}
+8.8.8.8 is the default google DNS server
+
+After editing the daemon.jso restart the docker service
+
+- service docker restart
+
+115.
