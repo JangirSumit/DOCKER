@@ -1,0 +1,37 @@
+1. Create Kubernetes cluster on GCP.
+
+2. Check Kubernetes nodes
+- kubectl get nodes
+
+3. Upload folder to the Kubernetes master
+
+4. Create dockerfile and create image
+
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y nginx
+RUN apt-get install -y unzip
+WORKDIR /var/www/html
+COPY CAse-study-app.zip .
+RUN unzip Case-study-app.zip ./
+RUN mv CAse-study-app/* ../
+EXPOSE 80
+CMD ['nginx', '-g', 'daemon off;']
+
+Save and exit.
+
+docker build -t case_study_4 -f dockerfile
+
+5. Run container
+- kubectl run pod1 --image case_study_4
+
+6. Expose pod1 to port
+- kubectl expose pod pod1 --name case_study_4 --port 80
+
+7. Run this with public IP and port number
+
+
+
+
+
+

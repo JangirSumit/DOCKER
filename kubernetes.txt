@@ -1,0 +1,5 @@
+# Export Project id
+- export PROJECT_ID=........
+
+# Initialize google cloud 
+- gcloud init

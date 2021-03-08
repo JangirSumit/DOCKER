@@ -37,6 +37,7 @@ CMD ["node","index.js"]
 **********************************************
 
 B. Deploy it on a cluster of Docker swarm with the replica set
+--------------------------------------------------------------
 
 1. Create 3 or more vm and install docker
 
@@ -57,6 +58,32 @@ B. Deploy it on a cluster of Docker swarm with the replica set
 7. Create service with 5 replicas
 - docker service create --name final_project_service --network final_project_network --replicas 5 -p 8888:8080 final_project
 
+8. Check the service
+- docker ps
+
+
 ## demo link - http://34.72.101.175:8888/
+
+**********************************************
+
+C. Deploy the app in Kubernetes
+-------------------------------
+
+1. Create Pod from image
+- kubectl run pod6 --image jangirsumit/first-image:final-project-image
+
+2. Expose it to port
+- kubectl expose pod pod5 --port 8080 --name sumit --type LoadBalancer
+
+3. Wait untill ports open with external ip
+
+
+## demo link - http://35.240.246.10:8080/
+
+
+
+
+
+
 
 

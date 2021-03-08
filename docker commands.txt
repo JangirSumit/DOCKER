@@ -651,6 +651,12 @@ got to folder where back up was taken
 
 - tar -xvf swarm.tgz -C /var/lib/docker/swarm/
 
+start the docker service
+- service docker start
+
+re Initialize swarm
+- docker swarm init --force-new-cluster
+
 114. Configure External DNS 
 Ans:
 - docker run --dns <server_address> <image_name> nslookup google.com
