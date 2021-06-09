@@ -57,7 +57,7 @@ Ans: docker run -a <stream> <imageName>
 Ans: curl ifconfig.co
 
 19. Default directory path for docker
-Ans: sudo cd /var/li/docker
+Ans: sudo cd /var/lib/docker
 
 20. Where Docker images gets stored
 Ans: overlay2 folder
@@ -667,8 +667,35 @@ To configure the dns server for the entire system edit the daemon.json file and 
 }
 8.8.8.8 is the default google DNS server
 
-After editing the daemon.jso restart the docker service
+After editing the daemon.json restart the docker service
 
 - service docker restart
 
-115.
+115. How to set environment variables?
+Ans:
+- docker run -e <Variable_Name>=<Value> <image_name>
+
+116. Default path of nginx?
+Ans: /usr/share/nginx/html
+
+117. Install Vi editor if not present?
+Ans:
+- apt-get update
+- apt-get install -y vim
+
+118. Find all ports used in a container?
+Ans:
+- sudo docker port <cont_id>
+
+119. Copy a file from local vm to container?
+Ans:
+- sudo docker <file_name> <container_id>:/<folder_path> Eg.- sudo docker index.html <container_id>:/tmp
+
+120. Check file without going inside a container?
+Ans:
+- sudo docker exec <container_id> ls -lrt /tmp Or
+- sudo docker exec <container_id> cat /tmp/index.html
+
+121. Now, Copy from container to local folder?
+Ans:
+- sudo docker cp <container_id>:/tmp/index.html .
