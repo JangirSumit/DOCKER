@@ -76,7 +76,8 @@ Ans: 1. Manual or commit / import-export
 2. Automatic or dockerfile
 
 25. Convert a running contianer into an image
-Ans: sudo ocker commit -m "install nginx" -c 'CMD /usr/sbin/nginx -g "daemon off;"' -c 'EXPOSE 80' <contid> <new image name>
+Ans: sudo docker commit -m "install nginx" -c 'CMD /usr/sbin/nginx -g "daemon off;"' -c 'EXPOSE 80' <contid> <new image name>
+- sudo docker commit -m "ubuntu_with_nginx" -c "CMD /usr/sbin/nginx -g 'daemon off;'" -c "EXPOSE 80" 6119c426d76b ubuntu_with_nginx_port:latest
 
 26. login into docker hub
 Ans: sudo docker login
@@ -307,7 +308,7 @@ Ans: -v and --mount
 53. tmpfs Mount?
 Ans: Using containers on a Linux systems enable users to use tmpfs mount.
 it enables container to write outside the container's writable layer.
-These are temporary mounts and only persist inside host machines system memonry.
+These are temporary mounts and only persist inside host machines system memory.
 
 These are non sharable between containers
 These mounts are not suitable to store permanent data.
@@ -689,7 +690,7 @@ Ans:
 
 119. Copy a file from local vm to container?
 Ans:
-- sudo docker <file_name> <container_id>:/<folder_path> Eg.- sudo docker index.html <container_id>:/tmp
+- sudo docker cp <file_name> <container_id>:/<folder_path> Eg.- sudo docker cp index.html <container_id>:/tmp
 
 120. Check file without going inside a container?
 Ans:
@@ -699,3 +700,37 @@ Ans:
 121. Now, Copy from container to local folder?
 Ans:
 - sudo docker cp <container_id>:/tmp/index.html .
+
+122. Container restart policy?
+Ans: Whenever we restart (stop/start) docker service then container should also get started.
+
+- sudo docker run -itd --name jangirsumit -p 82:80 --restart always nginx
+
+123. Limit a container to use limited memory/CPU?
+Ans:
+- sudo docker run -itd --name limited_memory -p 83:80 --restart always --memonry 500M nginx
+- sudo docker run -itd --name limited_memory -p 84:80 --restart always --cpus=".5" nginx
+
+124. Check stats 
+Ans: 
+- sudo docker stats
+
+125. Docker Engine Components?
+Ans: It is like server and docker service is like client side of client-server architecture.
+
+1. Daemon - client sends the control commands to the docker daemon thru REST API. 
+            DAEmon is responsible for building, running and disctributing the containers.
+            The client and daemon can be on the same system or the client can connect to a remote daemon.
+2. Container D 
+3. Run C
+
+126. Container life cycle
+Ans:
+- Created 
+- Running 
+- Paused 
+- Stopped 
+- Restarted 
+- Dead 
+
+127. 
