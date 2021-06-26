@@ -733,4 +733,10 @@ Ans:
 - Restarted 
 - Dead 
 
-127. 
+127. Check space taken by containers and images
+Ans:
+- sudo docker system df
+
+128. Check history?
+Ans:
+- sudo docker history [image_name]
